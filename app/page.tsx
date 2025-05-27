@@ -11,6 +11,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { format } from "date-fns";
 import LocationSubmitComponent from "./LocationSubmitComponent";
+import { Circle } from "./Circle";
 
 const GMAPS_API: string = process.env.NEXT_PUBLIC_GMAPS_API || "";
 const TRANSPORT_URL: string = process.env.NEXT_PUBLIC_TRANSPORT_URL || "";
@@ -22,7 +23,7 @@ const position = { lat: 11.4478283, lng: 77.7262866 };
 export default function Home() {
   return (
     <APIProvider apiKey={GMAPS_API}>
-      <Map style={containerStyle} defaultZoom={9} defaultCenter={position}>
+      <Map style={containerStyle} defaultZoom={14} defaultCenter={position}>
         <MarkerComponent />
       </Map>
     </APIProvider>
@@ -80,6 +81,10 @@ const MarkerComponent = () => {
       setIsLoading(false);
     }
   };
+  const changeCenter = (newCenter: google.maps.LatLng | null) => {
+    if (!newCenter) return;
+    setMarkerPosition({ lng: newCenter.lng(), lat: newCenter.lat() });
+  };
 
   return (
     <>
@@ -90,6 +95,17 @@ const MarkerComponent = () => {
           handlePositionChange(event)
         }
       ></Marker>
+      <Circle
+        radius={2000}
+        center={markerPosition}
+        onCenterChanged={changeCenter}
+        // strokeColor={"#0c4cb3"}
+        // strokeOpacity={1}
+        strokeWeight={1}
+        fillColor={"#3b82f6"}
+        fillOpacity={0.3}
+        draggable
+      />
       <MapControl position={google.maps.ControlPosition.RIGHT_TOP}>
         <LocationSubmitComponent
           submitLocation={submitLocation}
