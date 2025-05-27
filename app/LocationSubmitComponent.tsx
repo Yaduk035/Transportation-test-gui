@@ -9,6 +9,11 @@ type PROPS_TYPES = {
   setMarkerPosition: Dispatch<SetStateAction<{ lat: number; lng: number }>>;
   setTime: Dispatch<SetStateAction<string>>;
   time: string;
+  currentTime: boolean;
+  setCurrentTime: Dispatch<SetStateAction<boolean>>;
+  token: string;
+  setToken: Dispatch<SetStateAction<string>>;
+  isLoading: boolean;
 };
 
 const LocationSubmitComponent = ({
@@ -17,6 +22,11 @@ const LocationSubmitComponent = ({
   setMarkerPosition,
   time,
   setTime,
+  currentTime,
+  setCurrentTime,
+  token,
+  setToken,
+  isLoading,
 }: PROPS_TYPES) => {
   const handleCoordChange = (type: "lat" | "lng", value: string) => {
     if (!type || !value) return;
@@ -58,26 +68,42 @@ const LocationSubmitComponent = ({
 
       <div className="flex gap-2 text-lg items-baseline mt-2 justify-between">
         <label>Token </label>
-        <textarea className="outline-white outline-1 rounded-lg px-2 py-1 focus:outline-blue-300" />
+        <textarea
+          value={token}
+          onChange={(e) => setToken(e.target.value)}
+          className="outline-white outline-1 rounded-lg px-2 py-1 focus:outline-blue-300"
+        />
       </div>
 
       <div className="flex gap-2 text-lg items-baseline mt-2 justify-between">
-        <label>Time stamp </label>
+        <label>Time stamp</label>
         <input
+          disabled={currentTime}
           type="datetime-local"
-          className="outline-white outline-1 rounded-lg px-2 py-1 focus:outline-blue-300"
+          className="outline-white outline-1 rounded-lg px-2 py-1 focus:outline-blue-300 disabled:outline-gray-400"
           value={time}
           onChange={(e) => setTime(e.target.value)}
+        />
+      </div>
+      <div className="flex gap-6 text-lg items-baseline mt-2">
+        <label>Current time</label>
+        <input
+          className="scale-125"
+          type="checkbox"
+          onChange={(e) => setCurrentTime(e.target.checked)}
+          checked={currentTime}
         />
       </div>
 
       <div className="flex gap-2 text-lg items-baseline mt-2 justify-between">
         <button
           className="ml-auto bg-blue-400 p-2"
-          disabled
+          disabled={
+            isLoading || !token || !markerPosition || (!currentTime && !time)
+          }
           onClick={submitLocation}
         >
-          Submit
+          {isLoading ? "Submitting..." : "Submit"}
         </button>
       </div>
     </div>
