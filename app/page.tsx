@@ -106,6 +106,17 @@ const MarkerComponent = () => {
         fillOpacity={0.3}
         draggable
       />
+      <Circle
+        radius={400}
+        center={markerPosition}
+        onCenterChanged={changeCenter}
+        // strokeColor={"#0c4cb3"}
+        // strokeOpacity={1}
+        strokeWeight={1}
+        fillColor={"#DC143C"}
+        fillOpacity={0.3}
+        draggable
+      />
       <MapControl position={google.maps.ControlPosition.RIGHT_TOP}>
         <LocationSubmitComponent
           submitLocation={submitLocation}
