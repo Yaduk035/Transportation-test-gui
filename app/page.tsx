@@ -59,7 +59,7 @@ const MarkerComponent = () => {
         lat: markerPosition.lat,
         lon: markerPosition.lng,
         speed: 40,
-        course: 0,
+        course: 90,
         time: formattedDate,
         ign: 1,
         vno: "KL-07-8945",
@@ -114,6 +114,17 @@ const MarkerComponent = () => {
         // strokeOpacity={1}
         strokeWeight={1}
         fillColor={"#DC143C"}
+        fillOpacity={0.3}
+        draggable
+      />
+      <Circle
+        radius={800}
+        center={markerPosition}
+        onCenterChanged={changeCenter}
+        // strokeColor={"#0c4cb3"}
+        // strokeOpacity={1}
+        strokeWeight={1}
+        fillColor={"#fcff00"}
         fillOpacity={0.3}
         draggable
       />
